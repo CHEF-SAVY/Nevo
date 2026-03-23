@@ -133,6 +133,15 @@ pub enum PoolState {
 
 #[contracttype]
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[repr(u32)]
+pub enum EventStatus {
+    Active = 0,
+    Cancelled = 1,
+    Completed = 2,
+}
+
+#[contracttype]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CampaignMetrics {
     pub total_raised: i128,
     pub contributor_count: u32,
@@ -384,5 +393,25 @@ mod tests {
             false,
         );
         assert_eq!(status, CampaignLifecycleStatus::Successful);
+    }
+
+    #[test]
+    fn event_status_serialization() {
+        use soroban_sdk::{FromVal, IntoVal, Val};
+        let env = Env::default();
+        let status = EventStatus::Active;
+        let val: Val = status.into_val(&env);
+        let deserialized: EventStatus = EventStatus::from_val(&env, &val);
+        assert_eq!(status, deserialized);
+
+        let status = EventStatus::Cancelled;
+        let val: Val = status.into_val(&env);
+        let deserialized: EventStatus = EventStatus::from_val(&env, &val);
+        assert_eq!(status, deserialized);
+
+        let status = EventStatus::Completed;
+        let val: Val = status.into_val(&env);
+        let deserialized: EventStatus = EventStatus::from_val(&env, &val);
+        assert_eq!(status, deserialized);
     }
 }
