@@ -124,8 +124,8 @@ fn test_set_platform_fee_bps_above_10000_fails() {
     let result = client.try_set_platform_fee_bps(&10_001);
     assert_eq!(
         result,
-        Err(Ok(CrowdfundingError::InvalidFeeBps)),
-        "fee_bps > 10_000 must return InvalidFeeBps"
+        Err(Ok(CrowdfundingError::InvalidFee)),
+        "fee_bps > 10_000 must return InvalidFee"
     );
 }
 

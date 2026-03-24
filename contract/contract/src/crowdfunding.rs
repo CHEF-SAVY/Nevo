@@ -238,7 +238,7 @@ impl CrowdfundingTrait for CrowdfundingContract {
         admin.require_auth();
 
         if fee_bps > 10_000 {
-            return Err(CrowdfundingError::InvalidFeeBps);
+            return Err(CrowdfundingError::InvalidFee);
         }
 
         env.storage()
